@@ -103,7 +103,7 @@ tuner = kt.Hyperband(base_model,
     objective='val_accuracy',
     max_epochs=HYPERBAND_EPOCHS,
     factor=HYPERBAND_FACTOR,
-    directory=f'hyperband_E{HYPERBAND_EPOCHS}_F{HYPERBAND_FACTOR}',
+    directory=f'hyperbandData/E{HYPERBAND_EPOCHS}_F{HYPERBAND_FACTOR}',
     project_name=F'hyperparam_opt_E{HYPERBAND_EPOCHS}_F{HYPERBAND_FACTOR}'
 )
 
@@ -221,6 +221,13 @@ plt.legend(['train', 'validation'], loc='upper left')
 plt.savefig(f'{results_dir}/loss.jpg')
 plt.close()
 
+with open(f"{results_txt_file}_summarized.txt", "a") as fi:
+    fi.write(f'{EPOCHS}\t{LR}\t{accuracy[-1]}\t{validation_accuracy[-1]}\t{loss[-1]}\t{validation_loss[-1]}\n')
+
+with open(f"{results_txt_file}_raw.txt", "a") as fi:
+    fi.write(f'accuracy\tvalidation_accuracy\tloss\tvalidation_loss\n')
+    for a, va, l, vl in zip(accuracy, validation_accuracy, loss, validation_loss):
+        fi.write(f'{a}\t{va}\t{l}\t{vl}\n')
 
 
 
